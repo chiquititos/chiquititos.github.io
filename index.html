@@ -18,7 +18,7 @@
             align-items: center;
             justify-content: center;
             height: 100vh;
-            border: 5;
+            margin: 0;
             background-color: #000000;
         }
         header {
@@ -49,6 +49,7 @@
             height: 75vh;
             border-radius: 1px;
             position: relative;
+            background: #000000;
         }
         .controls {
             display: flex;
@@ -68,38 +69,90 @@
         .control-button:hover {
             background-color: #171717;
         }
+
+        /* Fullscreen styling for mobile */
+        .fullscreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 1000;
+            background-color: #000;
+        }
+
+        /* Exit Fullscreen Button styling */
+        #exitFullscreenButton {
+            display: none;
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            padding: 0.5rem 1rem;
+            font-size: 1rem;
+            color: #ffffff;
+            background-color: #363636;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        .fullscreen #exitFullscreenButton {
+            display: block; /* Only show when in fullscreen mode */
+        }
     </style>
 </head>
 <body>
 
     <header>
-        <h1>Kirton Gardens&rsquo; Legendary Loo: Shit Happens, Art Stays        </h1>
+        <h1>Kirton Gardens&rsquo; Legendary Loo: Shit Happens, Art Stays</h1>
     </header>
 
     <main>
         <div class="controls">
-            <button class="control-button" onclick="enterFullscreen()">Fullscreen</button>
+            <button class="control-button" onclick="toggleFullscreen()">Fullscreen</button>
             <button class="control-button" slot="ar-button">View in AR</button>
         </div>
         
         <model-viewer id="modelViewer" src="26_10_2024.glb" ar ar-modes="webxr scene-viewer quick-look"
                       camera-controls tone-mapping="neutral" shadow-intensity="1" alt="Toilet">
         </model-viewer>
-
-
+        
+        <!-- Exit Fullscreen Button -->
+        <button id="exitFullscreenButton" onclick="toggleFullscreen()">X</button>
     </main>
 
     <script>
-        function enterFullscreen() {
-            const modelViewer = document.getElementById('modelViewer');
-            if (modelViewer.requestFullscreen) {
-                modelViewer.requestFullscreen();
-            } else if (modelViewer.webkitRequestFullscreen) { // Safari
-                modelViewer.webkitRequestFullscreen();
-            } else if (modelViewer.msRequestFullscreen) { // IE11
-                modelViewer.msRequestFullscreen();
+        const modelViewer = document.getElementById('modelViewer');
+        const exitButton = document.getElementById('exitFullscreenButton');
+
+        function toggleFullscreen() {
+            if (!document.fullscreenElement && !modelViewer.classList.contains('fullscreen')) {
+                // Enter fullscreen: add fullscreen class and try native fullscreen
+                modelViewer.classList.add('fullscreen');
+                exitButton.style.display = 'block'; // Show exit button
+
+                if (modelViewer.requestFullscreen) {
+                    modelViewer.requestFullscreen();
+                }
+            } else {
+                // Exit fullscreen: remove fullscreen class and hide exit button
+                modelViewer.classList.remove('fullscreen');
+                exitButton.style.display = 'none'; // Hide exit button
+
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                }
             }
         }
+
+        // Listen for fullscreen change events to manage the "Exit Fullscreen" button
+        document.addEventListener('fullscreenchange', () => {
+            if (!document.fullscreenElement) {
+                modelViewer.classList.remove('fullscreen'); // Remove the class on exit
+                exitButton.style.display = 'none'; // Hide the exit button
+            }
+        });
     </script>
 </body>
 </html>
