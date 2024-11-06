@@ -145,16 +145,16 @@
     <main>
         <div class="controls">
             <button class="control-button" onclick="toggleFullscreen()">Fullscreen</button>
-            <button class="control-button" onclick="launchAR()">View in AR</button>
+            <button slot="ar-button" class="control-button" onclick="launchAR()">View in AR</button>
         </div>
         <!-- Loading Spinner -->
         <div id="loadingSpinner">
             <div class="spinner"></div> 
         </div>
-        <model-viewer id="modelViewer" src="26_10_2024.glb" ar ar-modes="webxr scene-viewer quick-look" ar-button-hidden
+        <model-viewer id="modelViewer" src="26_10_2024.glb" ar ar-scale="fixed"
                       camera-controls tone-mapping="neutral" shadow-intensity="1" alt="The Loo" scale="0.5 0.5 0.5">
         </model-viewer>
-        <button id="exitFullscreenButton" onclick="toggleFullscreen()">Close</button>
+        <button id="exitFullscreenButton" onclick="toggleFullscreen()">X</button>
     </main>
 
     <script>
