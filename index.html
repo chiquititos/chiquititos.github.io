@@ -47,12 +47,10 @@
         }
         model-viewer {
             width: 100%;
-            max-width: 100%;
-            height: 70vh; /* Limits the height on smaller screens */
-            max-height: 75vh; /* Prevents overflow */
+            height: 80vh; /* Limits the height on smaller screens */
             border-radius: 1px;
             position: relative;
-            background: #000000;
+            background: #000000; 
         }
         .controls {
             display: flex;
@@ -72,7 +70,6 @@
         .control-button:hover {
             background-color: #171717;
         }
-
         /* Fullscreen styling for mobile */
         .fullscreen {
             position: fixed;
@@ -95,13 +92,12 @@
             color: #ffffff;
             background-color: #363636;
             border: none;
-            border-radius: 5px;
             cursor: pointer;
             z-index: 1001;
         }
 
         .fullscreen #exitFullscreenButton {
-            display: block; /* Only show when in fullscreen mode */
+            display: block;
         }
 
         /* Responsive adjustments for mobile */
@@ -153,14 +149,12 @@
         </div>
         <!-- Loading Spinner -->
         <div id="loadingSpinner">
-            <div class="spinner"></div>
+            <div class="spinner"></div> 
         </div>
         <model-viewer id="modelViewer" src="26_10_2024.glb" ar ar-modes="webxr scene-viewer quick-look" ar-button-hidden
-                      camera-controls tone-mapping="neutral" shadow-intensity="1" alt="Toilet">
+                      camera-controls tone-mapping="neutral" shadow-intensity="1" alt="The Loo">
         </model-viewer>
-        
-        <!-- Exit Fullscreen Button -->
-        <button id="exitFullscreenButton" onclick="toggleFullscreen()">X</button>
+        <button id="exitFullscreenButton" onclick="toggleFullscreen()">Close</button>
     </main>
 
     <script>
@@ -175,23 +169,19 @@
 
         function toggleFullscreen() {
             if (!document.fullscreenElement && !modelViewer.classList.contains('fullscreen')) {
-                // Enter fullscreen: add fullscreen class and try native fullscreen
                 modelViewer.classList.add('fullscreen');
-                modelViewer.style.height = '100vh'; // Set height to 100vh in fullscreen
                 exitButton.style.display = 'block'; // Show exit button
 
                 if (modelViewer.requestFullscreen) {
                     modelViewer.requestFullscreen();
                 }
             } else {
-                // Exit fullscreen: remove fullscreen class and hide exit button
                 modelViewer.classList.remove('fullscreen');
-                modelViewer.style.height = '70vh'; // Reset height to 70vh when exiting fullscreen
                 exitButton.style.display = 'none'; // Hide exit button
 
-                if (document.exitFullscreen) {
-                    document.exitFullscreen();
-                }
+               if (document.exitFullscreen) {
+                   document.exitFullscreen();
+               }
             }
         }
 
@@ -199,7 +189,6 @@
         document.addEventListener('fullscreenchange', () => {
             if (!document.fullscreenElement) {
                 modelViewer.classList.remove('fullscreen'); // Remove the class on exit
-                modelViewer.style.height = '70vh'; // Reset height to 70vh when exiting fullscreen
                 exitButton.style.display = 'none'; // Hide the exit button
             }
         });
