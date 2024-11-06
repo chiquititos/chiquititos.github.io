@@ -155,7 +155,7 @@
         <div id="loadingSpinner">
             <div class="spinner"></div>
         </div>
-        <model-viewer id="modelViewer" src="26_10_2024.glb" ar ar-modes="webxr scene-viewer quick-look"
+        <model-viewer id="modelViewer" src="26_10_2024.glb" ar ar-modes="webxr scene-viewer quick-look" ar-button-hidden
                       camera-controls tone-mapping="neutral" shadow-intensity="1" alt="Toilet">
         </model-viewer>
         
@@ -177,6 +177,7 @@
             if (!document.fullscreenElement && !modelViewer.classList.contains('fullscreen')) {
                 // Enter fullscreen: add fullscreen class and try native fullscreen
                 modelViewer.classList.add('fullscreen');
+                modelViewer.style.height = '100vh'; // Set height to 100vh in fullscreen
                 exitButton.style.display = 'block'; // Show exit button
 
                 if (modelViewer.requestFullscreen) {
@@ -185,6 +186,7 @@
             } else {
                 // Exit fullscreen: remove fullscreen class and hide exit button
                 modelViewer.classList.remove('fullscreen');
+                modelViewer.style.height = '70vh'; // Reset height to 70vh when exiting fullscreen
                 exitButton.style.display = 'none'; // Hide exit button
 
                 if (document.exitFullscreen) {
@@ -197,6 +199,7 @@
         document.addEventListener('fullscreenchange', () => {
             if (!document.fullscreenElement) {
                 modelViewer.classList.remove('fullscreen'); // Remove the class on exit
+                modelViewer.style.height = '70vh'; // Reset height to 70vh when exiting fullscreen
                 exitButton.style.display = 'none'; // Hide the exit button
             }
         });
